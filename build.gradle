@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+ideaProject {
+    def javaVersion = "1.6"
+    def languageLevel = '1.6'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    maven {
+        url "http://maven.lujs.cn/nexus/content/groups/public/"
+    }
+    mavenLocal()
+}
+
+task "create-dirs" << {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
+
+
+dependencies {
+    compile(
+            "commons-lang:commons-lang:2.6",
+            "commons-io:commons-io:2.0.1",
+            "commons-collections:commons-collections:3.2",
+            "commons-codec:commons-codec:1.5"
+    )
+
+    compile("org.apache.zookeeper:zookeeper:3.4.5")
+    compile("com.google.code.gson:gson:1.7.1")
+}
